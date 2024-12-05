@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Articles</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+
+    <div id="map" style="height: 500px; width: 100%;"></div>
+
+    <div id="articles">
+        <h2>Articles</h2>
+        <div class="article" data-location="high">Sample Article 1</div>
+        <div class="article" data-location="medium">Sample Article 2</div>
+        <div class="article" data-location="low">Sample Article 3</div>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13); 
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function getColor(key) {
+            if (key === 'high') return 'red';
+            if (key === 'medium') return 'yellow';
+            if (key === 'low') return 'green';
+            return 'blue';
+        }
+
+        var locations = [
+            { lat: 51.5, lng: -0.09, key: 'high', name: 'Location 1' },
+            { lat: 51.49, lng: -0.08, key: 'medium', name: 'Location 2' },
+            { lat: 51.48, lng: -0.07, key: 'low', name: 'Location 3' }
+        ];
+
+        locations.forEach(function(location) {
+            var marker = L.marker([location.lat, location.lng]).addTo(map);
+            marker.on('mouseover', function() {
+                marker.bindPopup(location.name).openPopup();
+            });
+
+            var color = getColor(location.key);
+            marker.setIcon(L.icon({
+                iconUrl: `https://example.com/marker-${color}.png`,
+                iconSize: [25, 41],
+                iconAnchor: [12, 41]
+            }));
+        });
+
+        const articles = document.querySelectorAll('.article');
+
+        articles.forEach(article => {
+            article.addEventListener('mouseover', function() {
+                const locationKey = article.dataset.location;
+
+                locations.forEach(location => {
+                    if (location.key === locationKey) {
+                        var marker = L.marker([location.lat, location.lng]).addTo
