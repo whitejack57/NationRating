@@ -9,14 +9,15 @@
     body {
       margin: 0;
       padding: 0;
-      height: 100vh;
       background-color: #f0f0f0;
     }
 
-    /* Full screen map container */
+    /* Map container with a border */
     #map {
-      height: 100vh; /* Occupies the full viewport height */
-      width: 100%;
+      width: 100%;       /* Occupies the entire width */
+      height: 400px;     /* Fixed height of 400px */
+      border: 5px solid #333; /* Black border around the map */
+      box-sizing: border-box; /* Ensures border doesn't affect the size */
     }
 
     /* Simple CSS reset */
