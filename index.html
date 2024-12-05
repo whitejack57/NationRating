@@ -47,33 +47,47 @@
       margin: 5px 0;
     }
 
+    /* Title (h2) centered */
+    h2 {
+      text-align: center;
+    }
+
     /* Toggle buttons for choosing between Neutral Media and Resident Polls */
     .polling-toggle {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 20px;
     }
 
     .polling-toggle button {
       padding: 10px 20px;
-      background-color: #3498db;
-      color: white;
+      background-color: transparent;
+      color: #3498db;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
       font-size: 16px;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 15px;
     }
 
+    /* Active button when clicked */
     .polling-toggle button.active {
-      background-color: #2980b9;
+      font-weight: bold;
+      color: #2980b9;
     }
 
+    /* Polling content section (Neutral Media vs Resident Polls) */
     .polling-content {
       display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
     .polling-content.active {
       display: block;
+      opacity: 1;
     }
 
     /* News Articles Styling */
@@ -106,6 +120,7 @@
     <!-- Polling Toggle Buttons -->
     <div class="polling-toggle">
       <button id="neutralMediaButton" class="active">Neutral Media</button>
+      <span>|</span>
       <button id="residentPollsButton">Resident Polls</button>
     </div>
 
