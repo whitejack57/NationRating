@@ -131,10 +131,8 @@
         <h3>Neutral Media Feed</h3>
         <div class="news-articles">
           <!-- Placeholder articles -->
-          <ul>
-            <li><strong>BBC News</strong>: World Leaders Meet to Discuss Climate Change</li>
-            <li><strong>Reuters</strong>: Global Economies Begin to Recover Post-Pandemic</li>
-            <li><strong>Al Jazeera</strong>: Election Results Expected in Early November</li>
+          <ul id="newsList">
+            <!-- Articles will be inserted dynamically here -->
           </ul>
         </div>
       </div>
@@ -177,6 +175,31 @@
       }
     };
 
+    // Simulated News Articles for each country
+    const articles = {
+      "USA": [
+        { title: "US economy shows signs of recovery post-pandemic", source: "Reuters" },
+        { title: "New healthcare law passes Congress", source: "BBC" },
+        { title: "US elections 2024: What’s at stake?", source: "Al Jazeera" },
+        { title: "Technology industry in the USA: Growth or stagnation?", source: "The New York Times" },
+        { title: "America’s role in global climate agreements", source: "The Guardian" }
+      ],
+      "India": [
+        { title: "India's growth story: A booming economy", source: "Times of India" },
+        { title: "Climate change and its impact on India’s agriculture", source: "NDTV" },
+        { title: "India's tech industry emerges as global leader", source: "Economic Times" },
+        { title: "India’s 2024 elections: Key issues and candidates", source: "Hindustan Times" },
+        { title: "India’s education system under reform", source: "The Hindu" }
+      ],
+      "Germany": [
+        { title: "Germany’s renewable energy push intensifies", source: "Der Spiegel" },
+        { title: "Germany faces challenges with labor shortages", source: "Frankfurter Allgemeine" },
+        { title: "Germany’s role in European politics post-Brexit", source: "BBC" },
+        { title: "Germany’s economy: Growth, challenges, and innovation", source: "DW News" },
+        { title: "Germany’s climate policy: Progress and hurdles", source: "Zeit Online" }
+      ]
+    };
+
     // Initialize the map
     var map = L.map('map', {
       center: [0, 0],  // Center the map at the world view
@@ -205,63 +228,8 @@
             layer.on('click', function () {
               // Check if polling data exists for the country
               if (pollingData[countryName]) {
-                // Update the feed below the map with polling data
+                // Update the feed below the map with polling data and articles
                 updatePollingFeed(countryName);
+                updateNewsArticles(countryName);
               } else {
-                // If no polling data exists, show a default message
-                updatePollingFeed(countryName, true);
-              }
-            });
-          }
-        }).addTo(map);
-      });
-
-    // Function to update the polling feed below the map
-    function updatePollingFeed(country, noData = false) {
-      const pollingFeed = document.getElementById('pollingFeed');
-      const residentPollsData = document.getElementById('residentPollsData');
-
-      // If no polling data exists for the country
-      if (noData) {
-        residentPollsData.innerHTML = `<p>No polling data available for ${country}.</p>`;
-        return;
-      }
-
-      // Otherwise, show polling results
-      var poll = pollingData[country];
-      residentPollsData.innerHTML = `
-        <h4>${poll.question}</h4>
-        <p><strong>Yes:</strong> ${poll.results.Yes}%</p>
-        <p><strong>No:</strong> ${poll.results.No}%</p>
-      `;
-    }
-
-    // Event listeners for the toggle buttons
-    document.getElementById('neutralMediaButton').addEventListener('click', function() {
-      togglePollingContent('neutralMedia');
-    });
-
-    document.getElementById('residentPollsButton').addEventListener('click', function() {
-      togglePollingContent('residentPolls');
-    });
-
-    // Function to toggle between Neutral Media and Resident Polls content
-    function togglePollingContent(contentType) {
-      const neutralMediaContent = document.getElementById('neutralMediaContent');
-      const residentPollsContent = document.getElementById('residentPollsContent');
-
-      if (contentType === 'neutralMedia') {
-        neutralMediaContent.classList.add('active');
-        residentPollsContent.classList.remove('active');
-        document.getElementById('neutralMediaButton').classList.add('active');
-        document.getElementById('residentPollsButton').classList.remove('active');
-      } else {
-        neutralMediaContent.classList.remove('active');
-        residentPollsContent.classList.add('active');
-        document.getElementById('neutralMediaButton').classList.remove('active');
-        document.getElementById('residentPollsButton').classList.add('active');
-      }
-    }
-  </script>
-</body>
-</html>
+                // If no polling data exists
